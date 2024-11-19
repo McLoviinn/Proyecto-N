@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AlertController } from '@ionic/angular';
-import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';  // Importar el scanner
+import { AlertController } from '@ionic/angular'; // Importar AlertController
 
 @Component({
   selector: 'app-home',
@@ -12,32 +12,32 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 })
 export class HomePage implements OnInit {
   user: any = null;
-  userData: any = {};
-  scannedData: string = '';  // Propiedad para almacenar los datos escaneados
+  userData: any = {};  
+  scannedData: string = '';  // Aquí guardaremos los datos escaneados
 
   constructor(
     private afAuth: AngularFireAuth,
     private firestore: AngularFirestore,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController // Inyectar AlertController
   ) {}
 
   ngOnInit() {
-    // Verificar si hay un usuario autenticado
     this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.user = user;
-        this.loadUserData(user.uid);
+        this.loadUserData(user.uid);  // Cargar los datos específicos del usuario
       } else {
         this.router.navigate(['/login']);
       }
     });
   }
 
+  // Función para cargar los datos específicos del usuario desde Firestore
   loadUserData(uid: string) {
     this.firestore.collection('users').doc(uid).valueChanges().subscribe(data => {
       if (data) {
-        this.userData = data;
+        this.userData = data;  
       } else {
         this.userData = {
           email: this.user.email,
@@ -47,6 +47,7 @@ export class HomePage implements OnInit {
     });
   }
 
+  // Función para cerrar sesión con confirmación
   async logout() {
     const alert = await this.alertController.create({
       header: 'Confirmar Cierre de Sesión',
@@ -55,10 +56,14 @@ export class HomePage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
+          handler: () => {
+            // El usuario cancela, no se hace nada
+          }
         },
         {
           text: 'Cerrar Sesión',
           handler: async () => {
+            // El usuario confirma, cerrar sesión
             await this.afAuth.signOut();
             this.router.navigate(['/login']);
           }
@@ -69,38 +74,40 @@ export class HomePage implements OnInit {
     await alert.present();
   }
 
-  goToProfile() {
-    this.router.navigate(['/profile']);
-  }
-
-  goToSettings() {
-    this.router.navigate(['/settings']);
-  }
-
-  // Función correcta para escanear QR
+  // Función para iniciar el escaneo del código QR
   async scanQRCode() {
     try {
-      // Solicita permisos y habilita el escáner
-      const status = await BarcodeScanner.checkPermission({ force: true });
-      
-      if (status.granted) {
-        // Oculta la interfaz de la web mientras se escanea
-        BarcodeScanner.hideBackground();
+      // Inicializar el escaneo del QR
+      await BarcodeScanner.prepare(); // Prepare the scanner
+      const result = await BarcodeScanner.startScan();  // Start scanning
 
-        // Inicia el escaneo del QR
-        const result = await BarcodeScanner.startScan(); 
-
-        if (result && result.hasContent) {
-          this.scannedData = result.content;  // Guarda los datos escaneados
-        }
-        
-        // Mostrar la interfaz de la web nuevamente
-        BarcodeScanner.showBackground();
+      if (result.hasContent) {
+        this.scannedData = result.content;  // Asignamos los datos escaneados a la variable
+        this.registerScannedData(this.scannedData);  // Registramos los datos
       } else {
-        console.error('Permiso de cámara no concedido');
+        console.log("No QR code found.");
       }
-    } catch (error) {
-      console.error('Error al escanear el código QR:', error);
+
+      // Detener el escaneo después de usarlo
+      await BarcodeScanner.stopScan();
+      await BarcodeScanner.hideBackground();  // Ocultar el fondo
+
+    } catch (err) {
+      console.error('Error while scanning QR code:', err);
     }
+  }
+
+  // Función para registrar los datos escaneados
+  registerScannedData(data: string) {
+    console.log('QR Data:', data); // Aquí puedes manejar los datos del QR
+    // Puedes hacer lo que quieras con los datos, por ejemplo, guardarlos en Firestore
+    this.firestore.collection('scanned-data').add({
+      qrData: data,
+      timestamp: new Date(),
+    }).then(() => {
+      console.log('Datos registrados con éxito.');
+    }).catch((error) => {
+      console.error('Error al registrar los datos:', error);
+    });
   }
 }
