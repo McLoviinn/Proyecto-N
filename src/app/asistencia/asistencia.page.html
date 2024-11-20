@@ -1,13 +1,18 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>asistencia</ion-title>
+    <ion-title>Asistencias</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">asistencia</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let asistencia of asistencias">
+      <ion-label>
+        <h2>{{ asistencia.asignatura }}</h2>
+        <p>{{ asistencia.seccion }} - {{ asistencia.sala }}</p>
+        <p><strong>Fecha:</strong> {{ asistencia.fecha }}</p>  <!-- Ahora muestra el formato completo -->
+        <p><strong>Registrado el:</strong> {{ asistencia.formattedDate | date: 'short' }}</p>  <!-- Mostrar la fecha en formato corto -->
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
