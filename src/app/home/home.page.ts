@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';  // Importar el scanner
-import { AlertController } from '@ionic/angular'; // Importar AlertController
+import { AlertController, MenuController } from '@ionic/angular'; // Importar MenuController y AlertController
 
 @Component({
   selector: 'app-home',
@@ -19,7 +19,8 @@ export class HomePage implements OnInit {
     private afAuth: AngularFireAuth,
     private firestore: AngularFirestore,
     private router: Router,
-    private alertController: AlertController // Inyectar AlertController
+    private alertController: AlertController, // Inyectar AlertController
+    private menuController: MenuController // Inyectar MenuController
   ) {}
 
   ngOnInit() {
@@ -83,7 +84,10 @@ export class HomePage implements OnInit {
 
       if (result.hasContent) {
         this.scannedData = result.content;  // Asignamos los datos escaneados a la variable
-        this.registerScannedData(this.scannedData);  // Registramos los datos
+        const formattedData = this.formatScannedData(this.scannedData);  // Formateamos los datos
+        if (formattedData) {
+          this.registerScannedData(formattedData);  // Registramos los datos
+        }
       } else {
         console.log("No QR code found.");
       }
@@ -97,17 +101,63 @@ export class HomePage implements OnInit {
     }
   }
 
+  // Función para formatear los datos escaneados
+  formatScannedData(scannedData: string): string | null {
+    // Asumimos que los datos escaneados están en el formato correcto (ASIGNATURA|SECCION|SALA|FECHA)
+    const parts = scannedData.split('|');
+    
+    // Validamos que la longitud de las partes es correcta
+    if (parts.length === 4) {
+      const asignatura = parts[0];
+      const seccion = parts[1];
+      const sala = parts[2];
+      const fecha = parts[3];
+
+      // Devuelve el formato solicitado
+      return `${asignatura}|${seccion}|${sala}|${fecha}`;
+    } else {
+      console.error('Formato QR incorrecto');
+      return null;
+    }
+  }
+
   // Función para registrar los datos escaneados
   registerScannedData(data: string) {
     console.log('QR Data:', data); // Aquí puedes manejar los datos del QR
-    // Puedes hacer lo que quieras con los datos, por ejemplo, guardarlos en Firestore
-    this.firestore.collection('scanned-data').add({
-      qrData: data,
-      timestamp: new Date(),
+
+    // Obtenemos la fecha y hora actual
+    const timestamp = new Date();
+
+    // Guardamos los datos en Firestore en la colección "asistencia"
+    this.firestore.collection('asistencia').add({
+      qrData: data,  // Datos formateados
+      timestamp: timestamp,  // Fecha y hora del escaneo
+      formattedDate: timestamp.toISOString(),  // Fecha y hora en formato ISO
     }).then(() => {
       console.log('Datos registrados con éxito.');
     }).catch((error) => {
       console.error('Error al registrar los datos:', error);
     });
+  }
+
+  // Funciones para navegar al perfil, horario y asistencia
+  goToProfile() {
+    this.router.navigate(['/perfil']);  // Navegar a la página de mi perfil
+    this.menuController.close();  // Cerrar el menú
+  }
+
+  goToSchedule() {
+    this.router.navigate(['/horario']);  // Navegar a la página de horario
+    this.menuController.close();  // Cerrar el menú
+  }
+
+  goToAttendance() {
+    this.router.navigate(['/asistencia']);  // Navegar a la página de asistencia
+    this.menuController.close();  // Cerrar el menú
+  }
+
+  // Función para abrir el menú lateral
+  openMenu() {
+    this.menuController.open();  // Abrir el menú
   }
 }

@@ -1,5 +1,33 @@
+<ion-menu side="start" menuId="first" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item button (click)="goToProfile()">
+        <ion-label>Mi Perfil</ion-label>
+      </ion-item>
+      <ion-item button (click)="goToSchedule()">
+        <ion-label>Horario</ion-label>
+      </ion-item>
+      <ion-item button (click)="goToAttendance()">
+        <ion-label>Ver Asistencia</ion-label>
+      </ion-item>
+      <!-- Puedes agregar más opciones aquí si lo deseas -->
+      <ion-item button (click)="logout()">
+        <ion-label>Cerrar Sesión</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button> <!-- Botón para abrir el menú lateral -->
+    </ion-buttons>
     <ion-title>Bienvenido, {{ userData.name }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="logout()">Cerrar Sesión</ion-button>
@@ -7,7 +35,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content id="main-content">
   <ion-card>
     <ion-card-header>
       <ion-card-title>Hola, {{ userData.name }}</ion-card-title>
