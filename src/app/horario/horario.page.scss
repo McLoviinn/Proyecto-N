@@ -1,0 +1,76 @@
+/* Toolbar */
+ion-toolbar {
+    --background: var(--ion-color-secondary);
+    --color: white;
+  }
+  
+  /* Botón de volver */
+  ion-back-button {
+    --ion-color-primary: white;
+  }
+  
+  /* Títulos de los días */
+  .day-title {
+    margin: 16px 8px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--ion-color-primary);
+    text-align: center;
+    border-bottom: 2px solid var(--ion-color-medium);
+    padding-bottom: 4px;
+  }
+  
+  /* Lista de horarios */
+  ion-list {
+    margin: 8px 16px;
+  }
+  
+  /* Estilo para cada clase */
+  ion-item {
+    --background: var(--ion-color-light);
+    --color: var(--ion-color-dark);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 12px;
+  }
+  
+  /* Información de las clases */
+  .subject {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--ion-color-tertiary);
+    margin-bottom: 4px;
+  }
+  
+  .time,
+  .code,
+  .professor,
+  .location {
+    font-size: 0.9rem;
+    color: var(--ion-color-medium);
+    margin: 2px 0;
+  }
+  
+  /* Responsividad */
+  @media (max-width: 600px) {
+    .day-title {
+      font-size: 1.2rem;
+    }
+  
+    ion-item {
+      padding: 10px;
+    }
+  
+    .subject {
+      font-size: 1rem;
+    }
+  
+    .time,
+    .code,
+    .professor,
+    .location {
+      font-size: 0.8rem;
+    }
+  }
+  

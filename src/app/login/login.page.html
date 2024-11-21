@@ -1,15 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title>AppScanner</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <ion-card class="login-card">
     <ion-card-header>
       <ion-card-title>Iniciar Sesión</ion-card-title>
     </ion-card-header>
-    
+
     <ion-card-content>
       <form (ngSubmit)="onLogin()">
         <ion-item>
@@ -17,25 +17,30 @@
           <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item class="password-item">
           <ion-label position="floating">Contraseña</ion-label>
-          <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+          <ion-input 
+            [type]="showPassword ? 'text' : 'password'" 
+            [(ngModel)]="password" 
+            name="password" 
+            required
+          ></ion-input>
+          <ion-button fill="clear" slot="end" class="toggle-password" (click)="togglePasswordVisibility()">
+            <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+          </ion-button>
         </ion-item>
 
         <ion-button expand="full" type="submit" [disabled]="loading">
           Iniciar Sesión
         </ion-button>
       </form>
-      
+
       <ion-spinner *ngIf="loading"></ion-spinner>
       <ion-text color="danger" *ngIf="errorMessage">{{ errorMessage }}</ion-text>
 
-      <!-- Enlace para ir a la página de reset-password -->
-      <ion-item lines="none" style="text-align: center;">
-        <ion-label>
-          <a routerLink="/recuperar-contrasena" style="color: #3880ff; font-weight: bold;">¿Olvidaste tu contraseña?</a>
-        </ion-label>
-      </ion-item>
+      <div class="forgot-password">
+        <a routerLink="/recuperar-contrasena">¿Olvidaste tu contraseña?</a>
+      </div>
     </ion-card-content>
   </ion-card>
 </ion-content>

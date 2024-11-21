@@ -12,6 +12,7 @@ export class LoginPage {
   password: string = '';
   loading: boolean = false;
   errorMessage: string = '';
+  showPassword: boolean = false; // Aquí se define la propiedad 'showPassword'
 
   constructor(private afAuth: AngularFireAuth, private navCtrl: NavController) {}
 
@@ -21,11 +22,15 @@ export class LoginPage {
 
     try {
       await this.afAuth.signInWithEmailAndPassword(this.email, this.password);
-      this.navCtrl.navigateRoot('/home'); // Navegar a la página de inicio tras login exitoso
+      this.navCtrl.navigateRoot('/home'); // Redirige al home si el login es exitoso
     } catch (error) {
-      this.errorMessage = 'Error al iniciar sesión. Verifica tus credenciales.';
+      this.errorMessage = 'Correo o contraseña incorrectos.';
     } finally {
       this.loading = false;
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword; // Esta función alterna la visibilidad de la contraseña
   }
 }

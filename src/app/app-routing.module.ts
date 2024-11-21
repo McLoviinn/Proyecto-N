@@ -21,7 +21,15 @@ const routes: Routes = [
     path: 'asistencia',
     loadChildren: () => import('./asistencia/asistencia.module').then(m => m.AsistenciaPageModule)
   },
-  // Asegúrate de que todas las rutas necesarias están aquí
+  {
+    path: 'not-found',
+    loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundPageModule)
+  },
+  // Ruta wildcard para la página 404
+  {
+    path: '**',
+    redirectTo: 'not-found',  // Redirige a la página 404 cuando no se encuentra la ruta
+  }
 ];
 
 @NgModule({

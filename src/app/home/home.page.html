@@ -1,21 +1,25 @@
 <ion-menu side="start" menuId="first" contentId="main-content">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="primary">
       <ion-title>Menú</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item button (click)="goToProfile()">
+      <ion-item button (click)="goToProfile()" lines="full">
+        <ion-icon slot="start" name="person"></ion-icon>
         <ion-label>Mi Perfil</ion-label>
       </ion-item>
-      <ion-item button (click)="goToSchedule()">
+      <ion-item button (click)="goToSchedule()" lines="full">
+        <ion-icon slot="start" name="calendar"></ion-icon>
         <ion-label>Horario</ion-label>
       </ion-item>
-      <ion-item button (click)="goToAttendance()">
+      <ion-item button (click)="goToAttendance()" lines="full">
+        <ion-icon slot="start" name="checkmark-done"></ion-icon>
         <ion-label>Ver Asistencia</ion-label>
       </ion-item>
-      <ion-item button (click)="logout()">
+      <ion-item button (click)="logout()" lines="none" color="danger">
+        <ion-icon slot="start" name="log-out"></ion-icon>
         <ion-label>Cerrar Sesión</ion-label>
       </ion-item>
     </ion-list>
@@ -23,39 +27,45 @@
 </ion-menu>
 
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button aria-label="Abrir menú"></ion-menu-button>
     </ion-buttons>
-    <ion-title>Bienvenido, {{ userName || 'Usuario' }}</ion-title>
+    <ion-title>Bienvenido</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="logout()">Cerrar Sesión</ion-button>
+      <ion-button (click)="logout()" color="danger">
+        <ion-icon name="log-out-outline" aria-label="Cerrar Sesión"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content id="main-content">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Hola, {{ userName || 'Usuario' }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Email: {{ userData?.email || 'No disponible' }}</p>
-      
-      <ion-button expand="full" (click)="scanQRCode()">Escanear QR</ion-button>
-      
-      <div *ngIf="scannedData">
-        <h3>Datos del QR:</h3>
-        <p>{{ scannedData }}</p>
-      </div>
+<ion-content id="main-content" class="main-content">
+  <!-- Sección de Clima -->
+  <div *ngIf="currentCity && currentTemperature && weatherDescription" class="weather-info">
+    <ion-icon name="cloud-outline" class="weather-icon"></ion-icon>
+    <h3>Clima Actual</h3>
+    <p><strong>Ubicación:</strong> {{ currentCity }}</p>
+    <p><strong>Temperatura:</strong> {{ currentTemperature }}°C</p>
+    <p><strong>Condiciones:</strong> {{ weatherDescription }}</p>
+  </div>
 
-      <div *ngIf="currentCity && currentTemperature && weatherDescription">
-        <h3>Clima Actual</h3>
-        <p><strong>Ubicación:</strong> {{ currentCity }}</p>
-        <p><strong>Temperatura:</strong> {{ currentTemperature }}</p>
-        <p><strong>Condiciones:</strong> {{ weatherDescription }}</p>
-      </div>
+  <!-- Mensaje de Bienvenida -->
+  <div class="welcome-message">
+    <h2>¡Hola, {{ userName || 'Usuario' }}!</h2>
+    <p>Bienvenido a nuestra aplicación. ¡Esperamos que tengas un gran día!</p>
+  </div>
 
-    </ion-card-content>
-  </ion-card>
+  <!-- Botón para Escanear QR -->
+  <div class="scan-button">
+    <ion-button expand="full" (click)="scanQRCode()" color="tertiary">
+      Escanear QR
+    </ion-button>
+  </div>
+
+  <!-- Sección de datos escaneados -->
+  <div *ngIf="scannedData" class="scanned-data">
+    <h3>Datos del QR:</h3>
+    <p>{{ scannedData }}</p>
+  </div>
 </ion-content>

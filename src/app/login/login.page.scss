@@ -1,0 +1,56 @@
+/* Estilo de la tarjeta de inicio de sesión */
+.login-card {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Alineación del ícono del ojo en el campo de contraseña */
+  .password-item {
+    position: relative;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: var(--ion-color-medium);
+  }
+  
+  /* Botón de inicio de sesión */
+  ion-button {
+    margin-top: 16px;
+  }
+  
+  /* Enlace de contraseña olvidada */
+  .forgot-password {
+    text-align: center;
+    margin-top: 16px;
+  }
+  
+  .forgot-password a {
+    color: var(--ion-color-primary);
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Spinner */
+  ion-spinner {
+    display: block;
+    margin: 16px auto;
+  }
+  
+  /* Mensaje de error */
+  ion-text {
+    display: block;
+    margin-top: 8px;
+    text-align: center;
+  }
+  
