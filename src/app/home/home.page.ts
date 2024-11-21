@@ -76,38 +76,45 @@ export class HomePage implements OnInit {
     await alert.present();
   }
 
+  // Función para iniciar el escaneo del código QR
   async scanQRCode() {
     try {
-      await BarcodeScanner.prepare();
-      const result = await BarcodeScanner.startScan();
+      // Inicializar el escaneo del QR
+      await BarcodeScanner.prepare(); // Prepare the scanner
+      const result = await BarcodeScanner.startScan();  // Start scanning
 
       if (result.hasContent) {
-        this.scannedData = result.content;
-        const formattedData = this.formatScannedData(this.scannedData);
+        this.scannedData = result.content;  // Asignamos los datos escaneados a la variable
+        const formattedData = this.formatScannedData(this.scannedData);  // Formateamos los datos
         if (formattedData) {
-          this.registerScannedData(formattedData);
+          this.registerScannedData(formattedData);  // Registramos los datos
         }
       } else {
         console.log("No QR code found.");
       }
 
+      // Detener el escaneo después de usarlo
       await BarcodeScanner.stopScan();
-      await BarcodeScanner.hideBackground();
+      await BarcodeScanner.hideBackground();  // Ocultar el fondo
 
     } catch (err) {
       console.error('Error while scanning QR code:', err);
     }
   }
 
+  // Función para formatear los datos escaneados
   formatScannedData(scannedData: string): string | null {
+    // Asumimos que los datos escaneados están en el formato correcto (ASIGNATURA|SECCION|SALA|FECHA)
     const parts = scannedData.split('|');
     
+    // Validamos que la longitud de las partes es correcta
     if (parts.length === 4) {
       const asignatura = parts[0];
       const seccion = parts[1];
       const sala = parts[2];
       const fecha = parts[3];
 
+      // Devuelve el formato solicitado
       return `${asignatura}|${seccion}|${sala}|${fecha}`;
     } else {
       console.error('Formato QR incorrecto');
@@ -115,21 +122,31 @@ export class HomePage implements OnInit {
     }
   }
 
-  registerScannedData(data: string) {
-    console.log('QR Data:', data);
+  // Función para registrar los datos escaneados
+// Función para registrar los datos escaneados, ajustado para el usuario logeado
+registerScannedData(data: string) {
+  console.log('QR Data:', data); // Aquí puedes manejar los datos del QR
 
+  // Verificar que el usuario esté logeado
+  if (this.user && this.user.uid) {
+    // Obtenemos la fecha y hora actual
     const timestamp = new Date();
 
-    this.firestore.collection('asistencia').add({
-      qrData: data,
-      timestamp: timestamp,
-      formattedDate: timestamp.toISOString(),
+    // Guardamos los datos en Firestore en la colección "asistencia", pero ahora dentro del documento del usuario logeado
+    this.firestore.collection('users').doc(this.user.uid).collection('asistencia').add({
+      qrData: data,  // Datos formateados
+      timestamp: timestamp,  // Fecha y hora del escaneo
+      formattedDate: timestamp.toISOString(),  // Fecha y hora en formato ISO
     }).then(() => {
-      console.log('Datos registrados con éxito.');
+      console.log('Datos registrados con éxito para el usuario:', this.user.uid);
     }).catch((error) => {
-      console.error('Error al registrar los datos:', error);
+      console.error('Error al registrar los datos para el usuario:', error);
     });
+  } else {
+    console.error('No hay usuario logeado.');
   }
+}
+
 
   goToProfile() {
     this.router.navigate(['/perfil']);
