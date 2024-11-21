@@ -122,23 +122,29 @@ export class HomePage implements OnInit {
   }
 
   // Función para registrar los datos escaneados
-  registerScannedData(data: string) {
-    console.log('QR Data:', data); // Aquí puedes manejar los datos del QR
+// Función para registrar los datos escaneados, ajustado para el usuario logeado
+registerScannedData(data: string) {
+  console.log('QR Data:', data); // Aquí puedes manejar los datos del QR
 
+  // Verificar que el usuario esté logeado
+  if (this.user && this.user.uid) {
     // Obtenemos la fecha y hora actual
     const timestamp = new Date();
 
-    // Guardamos los datos en Firestore en la colección "asistencia"
-    this.firestore.collection('asistencia').add({
+    // Guardamos los datos en Firestore en la colección "asistencia", pero ahora dentro del documento del usuario logeado
+    this.firestore.collection('users').doc(this.user.uid).collection('asistencia').add({
       qrData: data,  // Datos formateados
       timestamp: timestamp,  // Fecha y hora del escaneo
       formattedDate: timestamp.toISOString(),  // Fecha y hora en formato ISO
     }).then(() => {
-      console.log('Datos registrados con éxito.');
+      console.log('Datos registrados con éxito para el usuario:', this.user.uid);
     }).catch((error) => {
-      console.error('Error al registrar los datos:', error);
+      console.error('Error al registrar los datos para el usuario:', error);
     });
+  } else {
+    console.error('No hay usuario logeado.');
   }
+}
 
   // Funciones para navegar al perfil, horario y asistencia
   goToProfile() {

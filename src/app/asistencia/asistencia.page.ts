@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';  // Importar el servicio de Firestore
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-asistencia',
@@ -7,28 +8,30 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';  // Importar 
   styleUrls: ['./asistencia.page.scss'],
 })
 export class AsistenciaPage implements OnInit {
-  asistencias: any[] = [];  // Array para almacenar las asistencias
+  user: any = null;
+  asistencias: any[] = [];  // Aquí almacenaremos la lista de asistencias
 
-  constructor(private firestore: AngularFirestore) {}
+  constructor(
+    private afAuth: AngularFireAuth,
+    private firestore: AngularFirestore
+  ) {}
 
   ngOnInit() {
-    this.loadAsistencias();  // Cargar las asistencias cuando se inicializa la página
+    // Suscribirse al estado de autenticación
+    this.afAuth.authState.subscribe((user) => {
+      if (user) {
+        this.user = user;
+        this.loadUserAttendance(user.uid);  // Cargar la asistencia del usuario
+      } else {
+        // Manejar el caso en que no haya un usuario logeado, redirigir si es necesario
+      }
+    });
   }
 
-  loadAsistencias() {
-    this.firestore.collection('asistencia', ref => ref.orderBy('timestamp', 'desc')).snapshotChanges()
-      .subscribe(data => {
-        // Procesar los datos obtenidos de Firestore
-        this.asistencias = data.map(e => {
-          const docData = e.payload.doc.data();
-          // Verifica que docData sea un objeto antes de usar el spread operator
-          return docData ? {
-            id: e.payload.doc.id,
-            ...docData  // Utiliza spread operator solo si docData es un objeto
-          } : null;
-        }).filter(item => item !== null);  // Eliminar cualquier valor nulo
-      }, error => {
-        console.error('Error al cargar las asistencias:', error);
-      });
+  // Función para cargar la asistencia del usuario desde Firestore
+  loadUserAttendance(uid: string) {
+    this.firestore.collection('users').doc(uid).collection('asistencia').valueChanges().subscribe((data: any[]) => {
+      this.asistencias = data;  // Asignar los datos obtenidos a la variable asistencias
+    });
   }
 }

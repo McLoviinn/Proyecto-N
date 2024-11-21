@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Asistencias</ion-title>
+    <ion-title>Asistencia</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,10 +8,8 @@
   <ion-list>
     <ion-item *ngFor="let asistencia of asistencias">
       <ion-label>
-        <h2>{{ asistencia.asignatura }}</h2>
-        <p>{{ asistencia.seccion }} - {{ asistencia.sala }}</p>
-        <p><strong>Fecha:</strong> {{ asistencia.fecha }}</p>  <!-- Ahora muestra el formato completo -->
-        <p><strong>Registrado el:</strong> {{ asistencia.formattedDate | date: 'short' }}</p>  <!-- Mostrar la fecha en formato corto -->
+        <h2>{{ asistencia.qrData }}</h2>
+        <p>{{ asistencia.formattedDate }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
