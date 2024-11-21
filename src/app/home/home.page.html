@@ -63,9 +63,16 @@
     </ion-button>
   </div>
 
-  <!-- Sección de datos escaneados -->
-  <div *ngIf="scannedData" class="scanned-data">
-    <h3>Datos del QR:</h3>
-    <p>{{ scannedData }}</p>
+  <!-- Mensaje dinámico al escanear QR -->
+  <div *ngIf="scannedData" class="attendance-confirmation">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>¡Asistencia Registrada!</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Asignatura: <strong>{{ scannedData }}</strong></p>
+        <p>¡Tu asistencia ha sido registrada exitosamente!</p>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

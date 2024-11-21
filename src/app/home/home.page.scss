@@ -77,4 +77,77 @@ ion-toolbar {
   ion-button {
     --ripple-color: var(--ion-color-light);
   }
+  .attendance-confirmation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px;
+  }
+  
+  ion-card {
+    width: 90%;
+    max-width: 400px;
+    border: 2px solid #28a745; /* Verde resplandeciente */
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  ion-card-header {
+    background-color: #28a745; /* Verde brillante */
+    color: white;
+    text-align: center;
+    border-radius: 12px 12px 0 0;
+    padding: 10px;
+  }
+  
+  ion-card-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  
+  ion-card-content {
+    padding: 20px;
+    background-color: #f8f9fa; /* Gris claro */
+    text-align: center;
+  }
+  
+  ion-card-content p {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  ion-card-content p strong {
+    color: #28a745; /* Verde */
+  }
+  
+  .success-message {
+    font-size: 1.2rem;
+    color: white;
+  }
+  
+  .success-icon {
+    font-size: 3rem;
+    color: #28a745;
+    margin-bottom: 10px;
+  }
+  
+  .scanned-info {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .confirmation-text {
+    font-size: 1.1rem;
+    color: #28a745; /* Verde */
+    font-weight: bold;
+  }
+  
+  /* Efecto hover en el card */
+  ion-card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+  }
   
