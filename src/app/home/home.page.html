@@ -15,7 +15,6 @@
       <ion-item button (click)="goToAttendance()">
         <ion-label>Ver Asistencia</ion-label>
       </ion-item>
-      <!-- Puedes agregar más opciones aquí si lo deseas -->
       <ion-item button (click)="logout()">
         <ion-label>Cerrar Sesión</ion-label>
       </ion-item>
@@ -26,9 +25,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button> <!-- Botón para abrir el menú lateral -->
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Bienvenido, {{ userData.name }}</ion-title>
+    <ion-title>Bienvenido, {{ userName || 'Usuario' }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="logout()">Cerrar Sesión</ion-button>
     </ion-buttons>
@@ -38,15 +37,25 @@
 <ion-content id="main-content">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Hola, {{ userData.name }}</ion-card-title>
+      <ion-card-title>Hola, {{ userName || 'Usuario' }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p>Email: {{ userData.email }}</p>
-      <ion-button expand="full" (click)="scanQRCode()">Escanear QR</ion-button> <!-- Botón para escanear QR -->
+      <p>Email: {{ userData?.email || 'No disponible' }}</p>
+      
+      <ion-button expand="full" (click)="scanQRCode()">Escanear QR</ion-button>
+      
       <div *ngIf="scannedData">
         <h3>Datos del QR:</h3>
         <p>{{ scannedData }}</p>
       </div>
+
+      <div *ngIf="currentCity && currentTemperature && weatherDescription">
+        <h3>Clima Actual</h3>
+        <p><strong>Ubicación:</strong> {{ currentCity }}</p>
+        <p><strong>Temperatura:</strong> {{ currentTemperature }}</p>
+        <p><strong>Condiciones:</strong> {{ weatherDescription }}</p>
+      </div>
+
     </ion-card-content>
   </ion-card>
 </ion-content>

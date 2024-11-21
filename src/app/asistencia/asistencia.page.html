@@ -8,8 +8,11 @@
   <ion-list>
     <ion-item *ngFor="let asistencia of asistencias">
       <ion-label>
-        <h2>{{ asistencia.qrData }}</h2>
-        <p>{{ asistencia.formattedDate }}</p>
+        <!-- Mostrar los datos de la asistencia -->
+        <h2>Asistencia: {{ asistencia.qrData }}</h2>
+        <p>Fecha: {{ asistencia.timestamp.toDate() | date: 'dd-MM-yyyy' }}</p>
+        <p>Hora: {{ asistencia.timestamp.toDate() | date: 'HH:mm' }}</p>
+        <p>Estado: presente</p>
       </ion-label>
     </ion-item>
   </ion-list>
