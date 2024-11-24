@@ -1,13 +1,36 @@
-<ion-header [translucent]="true">
+<!-- src/app/perfil/perfil.page.html -->
+
+<ion-header>
   <ion-toolbar>
-    <ion-title>perfil</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">perfil</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="perfil-content">
+  <!-- Foto de perfil -->
+  <div class="perfil-header">
+    <div class="perfil-image">
+      <img [src]="user.photoURL || 'assets/default-avatar.png'" alt="Foto de Perfil">
+    </div>
+    <div class="perfil-info">
+      <ion-card-title>{{ user.name || 'Nombre no disponible' }}</ion-card-title>
+      <ion-card-subtitle>{{ user.email || 'Correo no disponible' }}</ion-card-subtitle>
+    </div>
+  </div>
+
+  <!-- Información de contacto -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Información de contacto</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text>
+        <p><strong>Direccion:</strong> {{ user.addres || 'No disponible' }}</p>
+        <p><strong>Teléfono:</strong> {{ user.phone || 'No disponible' }}</p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
