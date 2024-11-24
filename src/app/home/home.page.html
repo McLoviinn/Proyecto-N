@@ -42,23 +42,30 @@
 
 <ion-content id="main-content" class="main-content">
   <!-- Sección de Clima -->
-  <div *ngIf="currentCity && currentTemperature && weatherDescription" class="weather-info">
-    <ion-icon name="cloud-outline" class="weather-icon"></ion-icon>
-    <h3>Clima Actual</h3>
-    <p><strong>Ubicación:</strong> {{ currentCity }}</p>
-    <p><strong>Temperatura:</strong> {{ currentTemperature }}°C</p>
-    <p><strong>Condiciones:</strong> {{ weatherDescription }}</p>
-  </div>
+  <ion-card class="weather-card" *ngIf="currentCity && currentTemperature && weatherDescription">
+    <div class="weather-info">
+      <h3>Clima Actual</h3>
+      <p><strong>Ubicación:</strong> {{ currentCity }}</p>
+      <p><strong>Temperatura:</strong> {{ currentTemperature }}</p>
+      <p><strong>Clima:</strong> {{ weatherDescription }}</p>
+    </div>
+  </ion-card>
 
   <!-- Mensaje de Bienvenida -->
   <div class="welcome-message">
-    <h2>¡Hola, {{ userName || 'Usuario' }}!</h2>
-    <p>Bienvenido a nuestra aplicación. ¡Esperamos que tengas un gran día!</p>
+    <ion-card class="welcome-card">
+      <ion-card-header>
+        <ion-card-title>¡Hola, {{ userName || 'Usuario' }}!</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Bienvenido a nuestra aplicación. ¡Esperamos que tengas un gran día!</p>
+      </ion-card-content>
+    </ion-card>
   </div>
 
   <!-- Botón para Escanear QR -->
   <div class="scan-button">
-    <ion-button expand="full" (click)="scanQRCode()" color="tertiary">
+    <ion-button expand="full" (click)="scanQRCode()" color="tertiary" class="scan-button-style">
       Escanear QR
     </ion-button>
   </div>

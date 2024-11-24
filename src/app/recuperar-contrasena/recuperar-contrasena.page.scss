@@ -1,0 +1,50 @@
+
+ion-button {
+    width: 100%;
+    max-width: 400px;
+    --background: #007bff;
+    --color: white;
+    --border-radius: 25px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  
+
+  /* Estilo para los márgenes y espaciado */
+  ion-content {
+    padding: 16px;
+  }
+  
+  /* Estilos para el spinner de carga */
+  ion-spinner {
+    margin-top: 20px;
+    display: block;
+    margin: 20px auto;
+  }
+  
+  /* Estilo para mensaje de error (si lo hay) */
+  ion-text {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 10px;
+    display: block;
+  }
+  
+  /* Enlace de recuperación de contraseña */
+  .forgot-password {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: underline;
+  }
+  
