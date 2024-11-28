@@ -1,50 +1,34 @@
+.recuperar-content {
+  .recuperar-header {
+    text-align: center;
+    margin: 2rem 1rem;
+    color: #1e88e5;
 
-ion-button {
-    width: 100%;
-    max-width: 400px;
-    --background: #007bff;
-    --color: white;
-    --border-radius: 25px;
-    padding: 14px;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 20px;
-  }
-  
-  
+    h2 {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
 
-  /* Estilo para los márgenes y espaciado */
-  ion-content {
-    padding: 16px;
+    p {
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      color: #1565c0;
+      opacity: 0.8;
+    }
   }
-  
-  /* Estilos para el spinner de carga */
-  ion-spinner {
-    margin-top: 20px;
-    display: block;
-    margin: 20px auto;
+
+  .custom-input {
+    --background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+    padding: 0.5rem;
   }
-  
-  /* Estilo para mensaje de error (si lo hay) */
-  ion-text {
-    color: #ff4d4d;
-    font-size: 14px;
-    margin-top: 10px;
-    display: block;
+
+  .custom-button {
+    margin: 2rem 1rem;
+    font-size: 1rem;
+
+
   }
-  
-  /* Enlace de recuperación de contraseña */
-  .forgot-password {
-    margin-top: 15px;
-    font-size: 14px;
-  }
-  
-  .forgot-password a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .forgot-password a:hover {
-    text-decoration: underline;
-  }
-  
+}

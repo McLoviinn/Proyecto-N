@@ -1,80 +1,81 @@
-/* src/app/perfil/perfil.page.scss */
-
 .perfil-content {
-    --background: #f4f4f4;
-    padding: 16px;
-  }
-  
+  --background: #f5f5f5;
+
   .perfil-header {
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-    margin-bottom: 20px;
-  }
-  
-  .perfil-image {
-    border-radius: 50%;
-    overflow: hidden;
-    width: 120px;
-    height: 120px;
-    margin-bottom: 10px;
-    border: 4px solid #fff; /* Border around the image */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .perfil-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .perfil-info {
+    align-items: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #0078d4, #0056a3);
+    color: white;
     text-align: center;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+
+    .perfil-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      border: 4px solid white;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .perfil-info {
+      h2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0.5rem 0;
+      }
+
+      p {
+        font-size: 1rem;
+        opacity: 0.8;
+      }
+    }
   }
-  
-  .perfil-info ion-card-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 4px;
-  }
-  
-  .perfil-info ion-card-subtitle {
-    font-size: 14px;
-    color: #666;
-  }
-  
+
   ion-card {
-    margin-bottom: 16px;
+    margin: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    ion-card-header {
+      background-color: #0078d4;
+      color: white;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+
+      ion-card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+    }
+
+    ion-card-content {
+      padding: 1rem;
+
+      ion-list {
+        ion-item {
+          --inner-padding-start: 0;
+
+          ion-label {
+            font-size: 1rem;
+            color: #555;
+          }
+
+          ion-text {
+            font-size: 1rem;
+            color: #333;
+          }
+        }
+      }
+    }
   }
-  
-  ion-card-header {
-    background-color: #f8f8f8;
-    padding: 12px;
-    border-radius: 8px 8px 0 0;
-  }
-  
-  ion-card-content {
-    padding: 12px;
-    background-color: #fff;
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  }
-  
-  ion-text p {
-    font-size: 16px;
-    color: #333;
-    margin: 8px 0;
-  }
-  
-  ion-button {
-    margin-top: 20px;
-    --border-radius: 8px;
-  }
-  
-  /* Add custom styles for back button */
-  ion-back-button {
-    color: #3880ff;
-  }
-  
+}

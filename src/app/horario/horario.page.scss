@@ -1,76 +1,58 @@
-/* Toolbar */
-ion-toolbar {
-    --background: var(--ion-color-secondary);
-    --color: white;
-  }
-  
-  /* Botón de volver */
-  ion-back-button {
-    --ion-color-primary: white;
-  }
-  
-  /* Títulos de los días */
+.day-schedule {
+  margin: 20px 15px;
+  padding: 15px;
+  border-radius: 10px;
+  background: linear-gradient(to right, #f0f0f0, #ffffff);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
   .day-title {
-    margin: 16px 8px;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    color: var(--ion-color-primary);
+    color: #007bff;
     text-align: center;
-    border-bottom: 2px solid var(--ion-color-medium);
-    padding-bottom: 4px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
   }
-  
-  /* Lista de horarios */
+
   ion-list {
-    margin: 8px 16px;
-  }
-  
-  /* Estilo para cada clase */
-  ion-item {
-    --background: var(--ion-color-light);
-    --color: var(--ion-color-dark);
-    border-radius: 10px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 12px;
-  }
-  
-  /* Información de las clases */
-  .subject {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--ion-color-tertiary);
-    margin-bottom: 4px;
-  }
-  
-  .time,
-  .code,
-  .professor,
-  .location {
-    font-size: 0.9rem;
-    color: var(--ion-color-medium);
-    margin: 2px 0;
-  }
-  
-  /* Responsividad */
-  @media (max-width: 600px) {
-    .day-title {
-      font-size: 1.2rem;
-    }
-  
+    background: transparent;
+
     ion-item {
-      padding: 10px;
-    }
-  
-    .subject {
-      font-size: 1rem;
-    }
-  
-    .time,
-    .code,
-    .professor,
-    .location {
-      font-size: 0.8rem;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+      background: #f8f9fa;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      ion-label {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .subject {
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: #343a40;
+        }
+
+        .time,
+        .code,
+        .professor,
+        .location {
+          font-size: 0.9rem;
+          color: #6c757d;
+
+          strong {
+            color: #495057;
+          }
+        }
+      }
     }
   }
-  
+}

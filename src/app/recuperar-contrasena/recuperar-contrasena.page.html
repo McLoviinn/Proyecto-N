@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <!-- Botón de retroceso -->
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/login"></ion-back-button>
@@ -8,11 +8,21 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-item>
+<ion-content class="recuperar-content">
+  <!-- Encabezado descriptivo -->
+  <div class="recuperar-header">
+    <h2>¿Olvidaste tu contraseña?</h2>
+    <p>Introduce tu correo electrónico para restablecerla.</p>
+  </div>
+
+  <!-- Campo de correo -->
+  <ion-item class="custom-input">
     <ion-label position="floating">Correo Electrónico</ion-label>
     <ion-input [(ngModel)]="email" type="email" required></ion-input>
   </ion-item>
 
-  <ion-button expand="full" (click)="recuperarContrasena()">Recuperar Contraseña</ion-button>
+  <!-- Botón de acción -->
+  <ion-button expand="block" shape="round" (click)="recuperarContrasena()" class="custom-button">
+    Enviar Enlace de Recuperación
+  </ion-button>
 </ion-content>

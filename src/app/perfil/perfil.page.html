@@ -1,7 +1,5 @@
-<!-- src/app/perfil/perfil.page.html -->
-
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
@@ -10,27 +8,68 @@
 </ion-header>
 
 <ion-content class="perfil-content">
-  <!-- Foto de perfil -->
+  <!-- Encabezado de perfil -->
   <div class="perfil-header">
     <div class="perfil-image">
       <img [src]="user.photoURL || 'assets/default-avatar.png'" alt="Foto de Perfil">
     </div>
     <div class="perfil-info">
-      <ion-card-title>{{ user.name || 'Nombre no disponible' }}</ion-card-title>
-      <ion-card-subtitle>{{ user.email || 'Correo no disponible' }}</ion-card-subtitle>
+      <h2>{{ user.name || 'Nombre no disponible' }}</h2>
+      <p>{{ user.email || 'Correo no disponible' }}</p>
     </div>
   </div>
 
-  <!-- Información de contacto -->
+  <!-- Información Personal -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Información de contacto</ion-card-title>
+      <ion-card-title>Información Personal</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-text>
-        <p><strong>Direccion:</strong> {{ user.addres || 'No disponible' }}</p>
-        <p><strong>Teléfono:</strong> {{ user.phone || 'No disponible' }}</p>
-      </ion-text>
+      <ion-list>
+        <ion-item>
+          <ion-label><strong>Fecha de Nacimiento:</strong></ion-label>
+          <ion-text>{{ user.birthDate || 'No disponible' }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Género:</strong></ion-label>
+          <ion-text>{{ user.gender || 'No disponible' }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Estado Civil:</strong></ion-label>
+          <ion-text>{{ user.maritalStatus || 'No disponible' }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Teléfono:</strong></ion-label>
+          <ion-text>{{ user.phone || 'No disponible' }}</ion-text>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Información Institucional -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Información Institucional</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label><strong>Rol:</strong></ion-label>
+          <ion-text>{{ user.role || 'No disponible' }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Departamento:</strong></ion-label>
+          <ion-text>{{ user.department || 'No disponible' }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Fecha de Ingreso:</strong></ion-label>
+          <ion-text>{{ user.joinDate || 'No disponible' }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Estado:</strong></ion-label>
+          <ion-text>{{ user.status || 'No disponible' }}</ion-text>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
 </ion-content>
