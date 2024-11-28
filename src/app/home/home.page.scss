@@ -1,6 +1,4 @@
-/* src/app/home/home.page.scss */
-
-/* Fondo y contenedor principal */
+/* ===== Clima ===== */
 .main-content {
   --background: #f4f4f4;
   padding: 16px;
@@ -8,9 +6,8 @@
   overflow: hidden;
 }
 
-/* Estilo de la tarjeta del clima */
 .weather-card {
-  background: linear-gradient(to top, #87ceeb, #00bfff); /* Cielo azul */
+  background: linear-gradient(to top, #87ceeb, #00bfff); 
   border-radius: 12px;
   padding: 20px;
   color: white;
@@ -23,8 +20,8 @@
 
 .weather-info {
   position: relative;
-  z-index: 3; /* Asegura que el texto esté encima de las imágenes del fondo */
-  color: black; /* Cambia el color del texto a negro */
+  z-index: 3;
+  color: black; 
 }
 
 .weather-info h3 {
@@ -38,135 +35,206 @@
   margin: 4px 0;
 }
 
-/* Estilo del sol (más pequeño) */
 .weather-card::before {
   content: '';
   position: absolute;
-  top: -40px; /* Ajuste para que el sol no se superponga a la tarjeta */
+  top: -40px; 
   left: -40px;
-  width: 120px; /* Hacer el sol más pequeño */
-  height: 120px; /* Hacer el sol más pequeño */
-  background-color: #ffcc00; /* Sol */
+  width: 120px; 
+  height: 120px; 
+  background-color: #ffcc00; 
   border-radius: 50%;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  z-index: 1; /* Esto se coloca detrás del texto */
+  z-index: 1; 
 }
 
-/* Nubes con más forma realista */
-.weather-card .cloud1 {
-  content: '';
-  position: absolute;
-  top: 30px;
-  left: 50px;
-  width: 180px;
-  height: 100px;
-  background: #fff; /* Nube 1 */
-  border-radius: 50%;
-  box-shadow: -15px -10px 15px rgba(0, 0, 0, 0.1);
-  z-index: 1;
+/*===== FIN =====*/
+/*==============*/
+
+/*===== Btn Scan =====*/
+.scan-button {
+  position: fixed;
+  bottom: 30px; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; 
+}
+ion-icon {
+  font-size: 2.0rem; 
+  color: white; 
 }
 
-.weather-card .cloud1::before {
-  content: '';
-  position: absolute;
-  top: 20px;
-  left: 30px;
-  width: 120px;
-  height: 70px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: -10px -8px 8px rgba(0, 0, 0, 0.1);
-}
+/*===== FIN =====*/
+/*==============*/
 
-.weather-card .cloud1::after {
-  content: '';
-  position: absolute;
-  top: -20px;
-  right: 0;
-  width: 140px;
-  height: 80px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: -15px -10px 15px rgba(0, 0, 0, 0.1);
-}
 
-/* Segunda nube */
-.weather-card .cloud2 {
-  content: '';
-  position: absolute;
-  top: 10px;
-  right: 30px;
-  width: 200px;
-  height: 120px;
-  background: #fff; /* Nube 2 */
-  border-radius: 50%;
-  box-shadow: -15px -10px 15px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-}
+/*===== Bienvenida =====*/
 
-.weather-card .cloud2::before {
-  content: '';
-  position: absolute;
-  top: 20px;
-  left: 30px;
-  width: 120px;
-  height: 70px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: -10px -8px 8px rgba(0, 0, 0, 0.1);
-}
-
-.weather-card .cloud2::after {
-  content: '';
-  position: absolute;
-  top: -20px;
-  right: 0;
-  width: 150px;
-  height: 80px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: -15px -10px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilo del mensaje de bienvenida */
 .welcome-message {
-  background: #fff;
-  padding: 20px;
+  display: flex;
+  justify-content: center;
   margin-top: 20px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.welcome-message h2 {
-  font-size: 28px;
+.welcome-card {
+  color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.user-name {
+  font-weight: bold;
+  color: #FFD700; 
+}
+
+.welcome-text {
+  font-size: 1.1rem;
+  color: #F5F5F5;
+  text-align: center;
+  margin: 20px 0;
+  line-height: 1.5;
+}
+
+.highlight-text {
+  color: #FFD700; 
   font-weight: bold;
 }
 
-.welcome-message p {
-  font-size: 16px;
+.extra-info {
+  font-size: 1rem;
+  color: #D3D3D3;
+  text-align: center;
+  font-style: italic;
+}
+/*===== FIN =====*/
+/*==============*/
+
+
+
+
+:host {
+  ion-content {
+    --background: linear-gradient(145deg, #1c1f26, #2b2f3a);
+
+    .welcome-message {
+      margin: 20px;
+      ion-card {
+        background: #2a2d36;
+        border-radius: 12px;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        color: #ffffff;
+
+        ion-card-title {
+          font-size: 1.6rem;
+          font-weight: bold;
+          text-align: center;
+          color: #ffffff;
+        }
+
+        ion-card-content {
+          font-size: 1rem;
+          color: #b0b0b0;
+          text-align: center;
+        }
+      }
+    }}}
+
+
+
+/*===== FOOTER Y QR =====*/
+#footer-1 {
+  background-color: #333; 
+  height: 60px; 
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 
-
-/* Estilo para la tarjeta de confirmación de asistencia */
-.attendance-confirmation {
-  margin-top: 20px;
+.footer-container-1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
 }
 
-.attendance-confirmation ion-card {
-  background-color: #f0f8ff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.footer-content-1 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.attendance-confirmation ion-card-header {
-  background-color: #87ceeb;
-  color: #fff;
+.footer-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 10px;
+  display: flex;
+  align-items: center;
 }
 
-.attendance-confirmation ion-card-content {
-  color: #333;
+.footer-link ion-icon {
+  margin-right: 8px;
 }
 
+.footer-link:hover {
+  color: #ffcc00;
+}
 
+/* Estilo para Footer 2 (Botón QR encima de Footer 1) */
+#footer-2 {
+  position: fixed;
+  bottom: 20px; 
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background-color: #333;
+  height: 80px; 
+  width: 80px; 
+  border-radius: 50%; 
+}
 
+.footer-container-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 
+.footer-content-2 {
+  position: absolute;
+  bottom: 0;
+  z-index: 10;
+  background-color: #333;
+  border-radius: 50%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  text-align: center;
+}
+
+.scan-button-style {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.scan-button-style ion-icon {
+  font-size: 2rem;
+  color: #ffffff;
+}
+/*===== FIN =====*/
+/*==============*/

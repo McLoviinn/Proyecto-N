@@ -1,46 +1,58 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>AppScanner</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
-  <ion-card class="login-card">
-    <ion-card-header>
-      <ion-card-title>Iniciar Sesión</ion-card-title>
-    </ion-card-header>
+  <div class="login-container">
+    <ion-card class="login-card">
+      <ion-card-header>
+        <ion-card-title>Bienvenido</ion-card-title>
+        <p class="subtitle">Inicia sesión para continuar</p>
+      </ion-card-header>
 
-    <ion-card-content>
-      <form (ngSubmit)="onLogin()">
-        <ion-item>
-          <ion-label position="floating">Correo Electrónico</ion-label>
-          <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
-        </ion-item>
+      <ion-card-content>
+        <form (ngSubmit)="onLogin()">
+          <ion-item lines="none" class="input-item">
+            <ion-label position="floating">Correo Electrónico</ion-label>
+            <ion-input 
+              type="email" 
+              [(ngModel)]="email" 
+              name="email" 
+              required 
+              spellcheck="false"
+              autocapitalize="off"
+            ></ion-input>
+          </ion-item>
 
-        <ion-item class="password-item">
-          <ion-label position="floating">Contraseña</ion-label>
-          <ion-input 
-            [type]="showPassword ? 'text' : 'password'" 
-            [(ngModel)]="password" 
-            name="password" 
-            required
-          ></ion-input>
-          <ion-button fill="clear" slot="end" class="toggle-password" (click)="togglePasswordVisibility()">
-            <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+          <ion-item lines="none" class="input-item">
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input 
+              [type]="showPassword ? 'text' : 'password'" 
+              [(ngModel)]="password" 
+              name="password" 
+              required
+            ></ion-input>
+            <ion-button 
+              fill="clear" 
+              slot="end" 
+              class="toggle-password" 
+              (click)="togglePasswordVisibility()">
+              <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+          <ion-button expand="block" type="submit" [disabled]="loading" class="login-button">
+            <ion-icon slot="start" name="log-in-outline"></ion-icon>
+            Iniciar Sesión
           </ion-button>
-        </ion-item>
+        </form>
 
-        <ion-button expand="full" type="submit" [disabled]="loading">
-          Iniciar Sesión
-        </ion-button>
-      </form>
+        <ion-spinner *ngIf="loading" class="loading-spinner"></ion-spinner>
+        <ion-text color="danger" *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </ion-text>
 
-      <ion-spinner *ngIf="loading"></ion-spinner>
-      <ion-text color="danger" *ngIf="errorMessage">{{ errorMessage }}</ion-text>
-
-      <div class="forgot-password">
-        <a routerLink="/recuperar-contrasena">¿Olvidaste tu contraseña?</a>
-      </div>
-    </ion-card-content>
-  </ion-card>
+        <div class="forgot-password">
+          <a routerLink="/recuperar-contrasena">¿Olvidaste tu contraseña?</a>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
