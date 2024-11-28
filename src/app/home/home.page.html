@@ -1,3 +1,4 @@
+<!-- Menú Lateral -->
 <ion-menu side="start" menuId="first" contentId="main-content">
   <ion-header>
     <ion-toolbar color="primary">
@@ -26,6 +27,7 @@
   </ion-content>
 </ion-menu>
 
+<!-- Encabezado -->
 <ion-header>
   <ion-toolbar color="secondary">
     <ion-buttons slot="start">
@@ -40,7 +42,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content id="main-content" class="main-content">
+<!-- Contenido Principal -->
+<ion-content id="main-content">
   <!-- Sección de Clima -->
   <ion-card class="weather-card" *ngIf="currentCity && currentTemperature && weatherDescription">
     <div class="weather-info">
@@ -52,51 +55,50 @@
   </ion-card>
 
 <!-- Mensaje de Bienvenida -->
-<ion-content id="main-content" class="main-content">
-  <div class="welcome-message">
-    <ion-card class="welcome-card">
-      <ion-card-header>
-        <ion-card-title class="welcome-title">
-          ¡Hola, <span class="user-name">{{ userName || 'Usuario' }}</span>! 🎉
-        </ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p class="welcome-text">
-          <strong>¡Bienvenido a nuestra aplicación!</strong><br>
-          Estamos encantados de tenerte con nosotros. Aquí podrás gestionar tus horarios, asistencia y mucho más.<br>
-          <span class="highlight-text">¡Es el momento perfecto para comenzar!</span>
-        </p>
-        <p class="extra-info">
-          Si necesitas ayuda, ¡no dudes en contactarnos! 💬<br>
-          ¿Listo para explorar? ¡Vamos allá! 🚀
-        </p>
-      </ion-card-content>
-    </ion-card>
-  </div>
-</ion-content>
+<div class="welcome-message">
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      <ion-card-title class="welcome-title">
+        ¡Hola, <span class="user-name">{{ userName || 'Usuario' }}</span>! 🎉
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p class="welcome-text">
+        <strong>¡Bienvenido a nuestra aplicación!</strong><br>
+        Estamos encantados de tenerte con nosotros. Aquí podrás gestionar tus horarios, asistencia y mucho más.<br>
+        <span class="highlight-text">¡Es el momento perfecto para comenzar!</span>
+      </p>
+      <p class="extra-info">
+        Si necesitas ayuda, ¡no dudes en contactarnos! 💬<br>
+        ¿Listo para explorar? ¡Vamos allá! 🚀
+      </p>
+    </ion-card-content>
+  </ion-card>
+</div>
 
-    <!-- Mensaje dinámico al escanear QR -->
-    <div *ngIf="scannedData" class="attendance-confirmation">
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>¡Asistencia Registrada!</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p>Asignatura: <strong>{{ scannedData }}</strong></p>
-          <p>¡Tu asistencia ha sido registrada exitosamente!</p>
-        </ion-card-content>
-      </ion-card>
-    </div>
-  </ion-content>
+<!-- Mensaje dinámico al escanear QR -->
+<div *ngIf="scannedData" class="attendance-confirmation">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>¡Asistencia Registrada!</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Asignatura: <strong>{{ scannedData }}</strong></p>
+      <p>¡Tu asistencia ha sido registrada exitosamente!</p>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div class="black-space"></div>
+
 
 <!-- FOOTERSS -->
 <ion-footer id="footer-1">
   <div class="footer-container-1">
     <div class="footer-content-1">
-      <a href="mailto:contacto@tucorreo.com" class="footer-link">
+      <a href="https://www.duoc.cl/contacto-admision/" class="footer-link">
         <ion-icon name="mail"></ion-icon> Contacto
       </a>
-      <a href="https://www.tusitio.com" class="footer-link">
+      <a href="https://www.duoc.cl/" class="footer-link">
         <ion-icon name="globe"></ion-icon> Web
       </a>
     </div>
@@ -111,7 +113,3 @@
     </div>
   </div>
 </ion-footer>
-
-
-  
-  
