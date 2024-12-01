@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- Botón de "Back" -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Back"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Chat Grupal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Ventana del chat -->
+  <div class="chat-window">
+    <div
+      class="message-bubble"
+      *ngFor="let message of messages"
+      [ngClass]="{ sent: message.senderId === currentUserId, received: message.senderId !== currentUserId }"
+    >
+      <!-- Mostrar el nombre solo para mensajes recibidos -->
+      <p class="message-author" *ngIf="message.senderId !== currentUserId">
+        {{ message.senderName }}
+      </p>
+      <p>{{ message.messageText }}</p>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="9">
+        <ion-input
+          [(ngModel)]="newMessage"
+          placeholder="Escribe tu mensaje..."
+        ></ion-input>
+      </ion-col>
+      <ion-col size="3">
+        <ion-button expand="block" (click)="sendMessage()">Enviar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+

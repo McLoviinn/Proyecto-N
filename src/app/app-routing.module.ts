@@ -22,14 +22,18 @@ const routes: Routes = [
     loadChildren: () => import('./asistencia/asistencia.module').then(m => m.AsistenciaPageModule)
   },
   {
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then(m => m.ChatPageModule) // Ruta del chat
+  },
+  {
     path: 'not-found',
     loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundPageModule)
   },
-  // Ruta wildcard para la página 404
+  // Ruta wildcard para la página 404 (debe ser la última)
   {
     path: '**',
-    redirectTo: 'not-found',  // Redirige a la página 404 cuando no se encuentra la ruta
-  }
+    redirectTo: 'not-found',
+  },
 ];
 
 @NgModule({
