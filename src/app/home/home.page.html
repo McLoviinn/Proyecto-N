@@ -7,7 +7,7 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item button (click)="goToProfile()" lines="full" color="primary">
+      <ion-item button (click)="goToProfile()" lines="full" color="secondary">
         <ion-icon slot="start" name="person"></ion-icon>
         <ion-label>Mi Perfil</ion-label>
       </ion-item>
@@ -15,10 +15,14 @@
         <ion-icon slot="start" name="calendar"></ion-icon>
         <ion-label>Horario</ion-label>
       </ion-item>
-      <ion-item button (click)="goToAttendance()" lines="full" color="tertiary">
+      <ion-item button (click)="goToAttendance()" lines="full" color="secondary">
         <ion-icon slot="start" name="checkmark-done"></ion-icon>
         <ion-label>Ver Asistencia</ion-label>
       </ion-item>
+      <ion-item button (click)="goToChat()" lines="full" color="success">
+        <ion-icon slot="start" name="chatbubbles"></ion-icon>
+        <ion-label>Chat Grupal</ion-label>
+      </ion-item>      
       <ion-item button (click)="logout()" lines="none" color="danger">
         <ion-icon slot="start" name="log-out"></ion-icon>
         <ion-label>Cerrar Sesión</ion-label>
