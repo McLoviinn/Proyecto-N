@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { AlertController, MenuController } from '@ionic/angular';
+import firebase from 'firebase/compat/app';
 
 @Component({
   selector: 'app-home',
@@ -13,11 +14,11 @@ import { AlertController, MenuController } from '@ionic/angular';
 export class HomePage implements OnInit {
   user: any = null;
   userData: any = {};
-  userName: string = ''; // Nueva propiedad para el nombre del usuario (antes del @)
+  userName: string = '';
   scannedData: string = '';
-  currentCity: string = ''; 
+  currentCity: string = '';
   currentTemperature: string = '';
-  weatherDescription: string = ''; 
+  weatherDescription: string = '';
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -32,8 +33,8 @@ export class HomePage implements OnInit {
       if (user) {
         this.user = user;
         this.loadUserData(user.uid);
-        this.userName = user.email ? user.email.split('@')[0] : 'Usuario'; // Verificación de null/undefined
-        this.getLocationAndWeather(); // Llamar a la función para obtener el clima y la ubicación
+        this.userName = user.email ? user.email.split('@')[0] : 'Usuario';
+        this.getLocationAndWeather();
       } else {
         this.router.navigate(['/login']);
       }
@@ -41,7 +42,7 @@ export class HomePage implements OnInit {
   }
 
   loadUserData(uid: string) {
-    this.firestore.collection('users').doc(uid).valueChanges().subscribe(data => {
+    this.firestore.collection('users').doc(uid).valueChanges().subscribe((data) => {
       if (data) {
         this.userData = data;
       } else {
@@ -61,16 +62,16 @@ export class HomePage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {}
+          handler: () => {},
         },
         {
           text: 'Cerrar Sesión',
           handler: async () => {
             await this.afAuth.signOut();
             this.router.navigate(['/login']);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     await alert.present();
@@ -82,50 +83,101 @@ export class HomePage implements OnInit {
       const result = await BarcodeScanner.startScan();
 
       if (result.hasContent) {
-        this.scannedData = result.content;
-        const formattedData = this.formatScannedData(this.scannedData);
-        if (formattedData) {
-          this.registerScannedData(formattedData);
+        console.log('Contenido del QR escaneado:', result.content);
+        const qrData = result.content;
+        const [asignatura, seccion, sala, fecha] = qrData.split('|');
+
+        const sectionId = `${asignatura.trim()}_${seccion.trim()}`;
+        console.log('ID construido para buscar en Firestore:', sectionId);
+
+        if (!this.user?.uid) {
+          console.error('Usuario no autenticado.');
+          await this.showAlert('Error', 'No se pudo autenticar al usuario.');
+          return;
+        }
+
+        const sectionRef = this.firestore
+          .collection('users')
+          .doc(this.user.uid)
+          .collection('asistencia')
+          .doc('asis')
+          .collection('secciones')
+          .doc(sectionId);
+
+        const sectionSnap = await sectionRef.get().toPromise();
+
+        if (sectionSnap && sectionSnap.exists) {
+          console.log('Sección válida encontrada:', sectionSnap.data());
+          this.registerAttendance(asignatura.trim(), seccion.trim(), sala.trim(), fecha.trim());
+        } else {
+          await this.showAlert('Error', 'La sección escaneada no existe en el sistema.');
         }
       } else {
-        console.log("No QR code found.");
+        console.log('No se pudo leer el QR.');
       }
 
       await BarcodeScanner.stopScan();
       await BarcodeScanner.hideBackground();
     } catch (err) {
-      console.error('Error while scanning QR code:', err);
+      console.error('Error al escanear QR:', err);
+      await BarcodeScanner.stopScan();
+      await BarcodeScanner.hideBackground();
     }
   }
 
-  formatScannedData(scannedData: string): string | null {
-    const parts = scannedData.split('|');
-    if (parts.length === 4) {
-      const asignatura = parts[0];
-      const seccion = parts[1];
-      const sala = parts[2];
-      const fecha = parts[3];
-      return `${asignatura}|${seccion}|${sala}|${fecha}`;
-    } else {
-      console.error('Formato QR incorrecto');
-      return null;
-    }
+  private async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK'],
+    });
+    await alert.present();
+    await alert.onDidDismiss();
   }
 
-  registerScannedData(data: string) {
-    if (this.user && this.user.uid) {
-      const timestamp = new Date();
-      this.firestore.collection('users').doc(this.user.uid).collection('asistencia').add({
-        qrData: data,
-        timestamp: timestamp,
-        formattedDate: timestamp.toISOString(),
-      }).then(() => {
-        console.log('Datos registrados con éxito para el usuario:', this.user.uid);
-      }).catch((error) => {
-        console.error('Error al registrar los datos para el usuario:', error);
-      });
-    } else {
-      console.error('No hay usuario logeado.');
+  async registerAttendance(asignatura: string, seccion: string, sala: string, fecha: string) {
+    const userId = this.user?.uid;
+    if (!userId) {
+      console.error('Usuario no autenticado.');
+      return;
+    }
+
+    console.log('Intentando registrar asistencia para:', { asignatura, seccion, sala, fecha });
+
+    const attendanceRef = this.firestore
+      .collection('users')
+      .doc(userId)
+      .collection('asistencia')
+      .doc('asis')
+      .collection('secciones')
+      .doc(`${asignatura}_${seccion}`)
+      .collection('registros', (ref) => ref.where('fecha', '==', fecha));
+
+    const attendanceSnap = await attendanceRef.get().toPromise();
+    console.log('Resultados de búsqueda en asistencia:', attendanceSnap?.docs.map((doc) => doc.data()));
+
+    if (attendanceSnap && !attendanceSnap.empty) {
+      await this.showAlert('Asistencia Duplicada', 'Ya has registrado tu asistencia para esta asignatura hoy.');
+    }else {
+      const timestamp = firebase.firestore.Timestamp.fromDate(new Date());
+      console.log('Registrando nueva asistencia...');
+      await this.firestore
+        .collection('users')
+        .doc(userId)
+        .collection('asistencia')
+        .doc('asis')
+        .collection('secciones')
+        .doc(`${asignatura}_${seccion}`)
+        .collection('registros')
+        .add({
+          asignatura,
+          seccion,
+          sala,
+          fecha,
+          timestamp,
+        });
+      console.log('Asistencia registrada con éxito.');
+      await this.showAlert('Éxito', 'Asistencia registrada con éxito.');
     }
   }
 
@@ -145,9 +197,9 @@ export class HomePage implements OnInit {
   }
 
   goToChat() {
-    this.router.navigate(['/chat']); // Navega a la página del chat
-    this.menuController.close(); // Cierra el menú después de navegar
-  }  
+    this.router.navigate(['/chat']);
+    this.menuController.close();
+  }
 
   openMenu() {
     this.menuController.open();
@@ -155,22 +207,29 @@ export class HomePage implements OnInit {
 
   async getLocationAndWeather() {
     try {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
 
-        const locationResponse = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`);
-        const locationData = await locationResponse.json();
-        this.currentCity = locationData?.address?.city || 'Comuna desconocida';
+          const locationResponse = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`
+          );
+          const locationData = await locationResponse.json();
+          this.currentCity = locationData?.address?.city || 'Comuna desconocida';
 
-        const weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
-        const weatherData = await weatherResponse.json();
+          const weatherResponse = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
+          );
+          const weatherData = await weatherResponse.json();
 
-        this.currentTemperature = `${weatherData.current_weather.temperature}°C`;
-        this.weatherDescription = this.getWeatherDescription(weatherData.current_weather.weathercode);
-      }, (error) => {
-        console.error('Error al obtener la ubicación:', error);
-      });
+          this.currentTemperature = `${weatherData.current_weather.temperature}°C`;
+          this.weatherDescription = this.getWeatherDescription(weatherData.current_weather.weathercode);
+        },
+        (error) => {
+          console.error('Error al obtener la ubicación:', error);
+        }
+      );
     } catch (error) {
       console.error('Error al obtener el clima:', error);
     }
@@ -178,17 +237,28 @@ export class HomePage implements OnInit {
 
   getWeatherDescription(code: number): string {
     switch (code) {
-      case 0: return 'Clima claro';
-      case 1: return 'Parcialmente nublado';
-      case 2: return 'Nublado';
-      case 3: return 'Lluvia ligera';
-      case 4: return 'Lluvia moderada';
-      case 5: return 'Lluvia fuerte';
-      case 6: return 'Tormenta';
-      case 7: return 'Nieve ligera';
-      case 8: return 'Nieve moderada';
-      case 9: return 'Nieve fuerte';
-      default: return 'Clima desconocido';
+      case 0:
+        return 'Clima claro';
+      case 1:
+        return 'Parcialmente nublado';
+      case 2:
+        return 'Nublado';
+      case 3:
+        return 'Lluvia ligera';
+      case 4:
+        return 'Lluvia moderada';
+      case 5:
+        return 'Lluvia fuerte';
+      case 6:
+        return 'Tormenta';
+      case 7:
+        return 'Nieve ligera';
+      case 8:
+        return 'Nieve moderada';
+      case 9:
+        return 'Nieve fuerte';
+      default:
+        return 'Clima desconocido';
     }
   }
 }

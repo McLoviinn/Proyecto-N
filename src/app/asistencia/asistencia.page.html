@@ -1,25 +1,30 @@
 <ion-header>
   <ion-toolbar color="secondary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/" aria-label="Volver">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-back-button>
+      <ion-back-button defaultHref="/" text="Back"></ion-back-button>
     </ion-buttons>
     <ion-title>Asistencia</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="asistencia-container">
-    <ion-list>
-      <ion-item *ngFor="let asistencia of asistencias" lines="none" class="asistencia-item">
-        <ion-label>
-          <h2 class="asistencia-title">Asistencia: {{ asistencia.qrData }}</h2>
-          <p class="asistencia-info">Fecha: {{ asistencia.timestamp.toDate() | date: 'dd-MM-yyyy' }}</p>
-          <p class="asistencia-info">Hora: {{ asistencia.timestamp.toDate() | date: 'HH:mm' }}</p>
-          <p class="asistencia-info estado">Estado: Presente</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
+  <ion-spinner name="crescent" class="spinner" *ngIf="loading"></ion-spinner>
+  
+  <ion-list *ngIf="!loading">
+    <ion-item *ngFor="let asistencia of asistencias" lines="full">
+      <ion-label>
+        <h2 class="asignatura"><strong>Asignatura:</strong> {{ asistencia.asignatura }}</h2>
+        <p class="detalle"><strong>Sección:</strong> {{ asistencia.seccion }}</p>
+        <p class="detalle"><strong>Sala:</strong> {{ asistencia.sala }}</p>
+        <p class="detalle"><strong>Fecha:</strong> {{ asistencia.fecha }}</p>
+        <p class="detalle"><strong>Hora:</strong> {{ asistencia.hora }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-item *ngIf="!loading && asistencias.length === 0" lines="none">
+    <ion-label class="ion-text-center">
+      <h2>No se encontraron registros de asistencia.</h2>
+    </ion-label>
+  </ion-item>
 </ion-content>
